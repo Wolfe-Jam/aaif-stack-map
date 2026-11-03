@@ -1,0 +1,32 @@
+name: Share a path
+description: A route through the projects that shows how they work together.
+title: "Path: <short name>"
+labels: ["path"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A path is a flow on the map: a sequence of links, each with one sentence of caption.
+        Paths can only use links the map has. If yours needs a new one, propose the link as well.
+  - type: input
+    id: name
+    attributes:
+      label: Name of the path
+      placeholder: A model call through a gateway
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps
+      description: One line per step, in order. Name the two projects and say what happens.
+      placeholder: |
+        1. goose → Agent Router: goose sends its model calls through the gateway.
+        2. Agent Router → Models: one OpenAI-compatible API reaches every provider.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: What it shows
+      description: Optional. What a reader learns from following it.

@@ -1,0 +1,109 @@
+{
+  "flows": {
+    "coding": {
+      "name": "A coding agent at work",
+      "steps": [
+        {
+          "link": "e-agents-goose",
+          "caption": "goose starts in a repository and reads AGENTS.md for the project’s standing instructions."
+        },
+        {
+          "link": "e-skills-goose",
+          "caption": "When a task matches one, it loads an Agent Skill: a folder of instructions and scripts."
+        },
+        {
+          "link": "e-goose-mcp",
+          "caption": "Its tools arrive as extensions, and every extension is an MCP server."
+        },
+        {
+          "link": "e-sandbox-mcp",
+          "caption": "One of those servers can be OpenSandbox, so the agent runs commands in an isolated sandbox."
+        },
+        {
+          "link": "e-sandbox-skills",
+          "caption": "OpenSandbox’s CLI can also install its own skills as SKILL.md files, so a coding agent learns how to drive the sandbox. Its install targets are Claude, Codex, opencode and others; goose is not named."
+        }
+      ]
+    },
+    "gateway": {
+      "name": "Through the gateway",
+      "steps": [
+        {
+          "link": "e-goose-router",
+          "caption": "An agent starts the trip: Agent Router ships an example that sends goose’s model calls and MCP tool calls through one gateway. The example still uses the old name, Envoy AI Gateway."
+        },
+        {
+          "link": "e-router-models",
+          "caption": "Agent Router gives applications one OpenAI-compatible API to every model…"
+        },
+        {
+          "link": "e-router-mcp",
+          "caption": "…and to MCP servers, behind the same front door."
+        },
+        {
+          "link": "e-router-a2a",
+          "caption": "It can carry A2A traffic too, through a preview guide; there is no dedicated A2A route type yet."
+        },
+        {
+          "link": "e-agw-models",
+          "caption": "agentgateway also routes traffic to LLM providers…"
+        },
+        {
+          "link": "e-agw-mcp",
+          "caption": "…federates tools over MCP…"
+        },
+        {
+          "link": "e-agw-a2a",
+          "caption": "…and carries agent-to-agent traffic over A2A."
+        },
+        {
+          "link": "s-gateways",
+          "caption": "The two now overlap on models, MCP and A2A. Agent Router cites agentgateway’s design, but no AAIF document draws the line between them."
+        }
+      ]
+    },
+    "a2a": {
+      "name": "Agents talking to agents",
+      "steps": [
+        {
+          "link": "e-mcp-a2a",
+          "caption": "MCP deepens one agent with tools. A2A connects that agent to other agents."
+        },
+        {
+          "link": "e-agw-a2a",
+          "caption": "agentgateway documents A2A as a gateway feature…"
+        },
+        {
+          "link": "e-router-a2a",
+          "caption": "…and Agent Router documents a preview way to route A2A agents through it."
+        }
+      ]
+    },
+    "train": {
+      "name": "Train, then serve",
+      "steps": [
+        {
+          "link": "e-env-mcp",
+          "caption": "In training an agent acts through step(). In production the same environment serves its tools over /mcp. OpenEnv’s RFC 003, still in review, says this reuses its own HTTP transport with MCP’s JSON-RPC message format, and that standard Streamable HTTP is planned."
+        }
+      ]
+    },
+    "model": {
+      "name": "An app calls a model",
+      "steps": [
+        {
+          "link": "e-app-responses",
+          "caption": "An application sends one request shape, defined by Open Responses…"
+        },
+        {
+          "link": "e-responses-models",
+          "caption": "…and any provider that implements it can answer."
+        },
+        {
+          "link": "e-responses-mcp",
+          "caption": "The spec names MCP once, as an example of tools hosted on external servers. It defines no MCP tool type."
+        }
+      ]
+    }
+  }
+}

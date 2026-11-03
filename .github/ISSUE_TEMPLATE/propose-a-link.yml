@@ -1,0 +1,43 @@
+name: Propose a link
+description: A project's own documentation states a relationship to another AAIF project.
+title: "Link: <from> → <to>"
+labels: ["link"]
+body:
+  - type: input
+    id: from
+    attributes:
+      label: From (the project whose docs state the link)
+      placeholder: goose
+    validations:
+      required: true
+  - type: input
+    id: to
+    attributes:
+      label: To
+      placeholder: MCP
+    validations:
+      required: true
+  - type: textarea
+    id: quote
+    attributes:
+      label: Quote
+      description: Copy it as a reader sees it. Use … to join two parts of one passage.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source file URL
+      description: A file in the project's own repository, on its default branch.
+      placeholder: https://github.com/owner/repo/blob/main/docs/page.md
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options:
+        - documented (the docs state the link)
+        - example (the docs name the other project as an example only)
+    validations:
+      required: true

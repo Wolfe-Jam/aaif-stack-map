@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Interactive map of the ten Agentic AI Foundation projects and the links their own documentation states.">
+<title>The AAIF Full Stack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a layered schematic (left) with a reading panel (right); flows step through cited links. */
+:root {
+  --ground: #EDF0F1;
+  --sheet: #F8FAFA;
+  --ink: #13202A;
+  --muted: #56646E;
+  --rule: #C8D0D5;
+  --band: #E3E8EA;
+  --accent: #0B6F79;
+  --accent-soft: #D3EAEC;
+  --seam: #A8432B;
+  --weak: #8A979F;
+  --node: #FFFFFF;
+  --new: #9A6B00;
+  --display: "IBM Plex Sans Condensed", "Arial Narrow", Arial, sans-serif;
+  --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --ground: #0E151A; --sheet: #131C22; --ink: #E4EAED; --muted: #93A2AC; --rule: #2B3842;
+  --band: #18232A; --accent: #45C1CC; --accent-soft: #123238; --seam: #E07A5E; --weak: #6D7C86; --node: #1A262E; --new: #E3B341;
+  color-scheme: dark } }
+:root[data-theme="dark"] {
+  --ground: #0E151A; --sheet: #131C22; --ink: #E4EAED; --muted: #93A2AC; --rule: #2B3842;
+  --band: #18232A; --accent: #45C1CC; --accent-soft: #123238; --seam: #E07A5E; --weak: #6D7C86; --node: #1A262E; --new: #E3B341;
+  color-scheme: dark }
+
+body { margin: 0; background: var(--ground); color: var(--ink); font: 15px/1.55 var(--body); }
+img { max-width: 100%; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 48px; display: grid; gap: 22px; }
+header { display: grid; gap: 6px; max-width: 70ch; }
+.eyebrow { font: 600 12px/1 var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+h1 { font: 700 clamp(30px, 5vw, 46px)/1.02 var(--display); letter-spacing: -.01em; margin: 0; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); }
+.lede strong { color: var(--ink); font-weight: 600; }
+
+.paths { margin: 0 0 -12px; font-size: 15px; color: var(--muted); }
+.paths strong { color: var(--ink); font-weight: 600; }
+.flows { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.flows .label { font: 600 12px/1 var(--display); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+button { font: 500 14px/1 var(--body); color: var(--ink); background: var(--sheet); border: 1px solid var(--rule); border-radius: 4px; padding: 9px 12px; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button:focus-visible, .nd:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--sheet); }
+#theme, #theme[aria-pressed="true"] { background: var(--sheet); border-color: var(--rule); color: var(--ink); }
+#theme:hover { border-color: var(--accent); }
+.toggle { margin-left: auto; display: flex; gap: 8px; align-items: center; font-size: 14px; color: var(--muted); }
+.toggle input { accent-color: var(--accent); width: 16px; height: 16px; }
+
+.main { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 20px; align-items: start; }
+@media (max-width: 960px) { .main { grid-template-columns: 1fr; } .toggle { margin-left: 0; } }
+.board { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; overflow-x: auto; min-width: 0; }
+svg { display: block; width: 100%; min-width: 640px; height: auto; }
+.bandrect { fill: var(--band); }
+.bandlabel { font: 600 11px var(--display); letter-spacing: .12em; text-transform: uppercase; fill: var(--muted); }
+.edge { fill: none; stroke: var(--ink); stroke-width: 1.6; opacity: .55; transition: opacity .2s, stroke .2s, stroke-width .2s; }
+.edge.weak { stroke: var(--weak); stroke-dasharray: 3 4; }
+.edge.seam { stroke: var(--seam); stroke-dasharray: 7 5; opacity: .8; }
+.edge.on { stroke: var(--accent); stroke-width: 3; opacity: 1; }
+.edge.seam.on { stroke: var(--seam); }
+.edge.dim { opacity: .1; }
+.hit { fill: none; stroke: transparent; stroke-width: 14; cursor: pointer; }
+.nd { cursor: pointer; }
+.nd rect { fill: var(--node); stroke: var(--ink); stroke-width: 1.3; transition: stroke .2s, fill .2s, opacity .2s; }
+.nd.ext rect { stroke-dasharray: 4 3; stroke: var(--muted); fill: var(--sheet); }
+.nd text.n { font: 600 15px var(--display); fill: var(--ink); }
+.nd text.k { font: 500 10px var(--mono); fill: var(--muted); }
+.nd.hub rect { stroke-width: 2.4; }
+.nd.on rect { stroke: var(--accent); stroke-width: 2.6; fill: var(--accent-soft); }
+.nd.dim { opacity: .28; }
+
+.panel { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; padding: 18px; display: grid; gap: 12px; min-width: 0; }
+.panel h2 { font: 700 24px/1.1 var(--display); margin: 0; }
+.panel .sub { font: 500 12px/1.4 var(--mono); color: var(--muted); margin: 0; }
+.panel p { margin: 0; }
+.facts { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 13px; margin: 0; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; }
+.chip { display: inline-block; font: 600 11px/1 var(--display); letter-spacing: .08em; text-transform: uppercase; padding: 4px 7px; border-radius: 3px; border: 1px solid currentColor; }
+.chip.impact { color: var(--accent); }
+.chip.growth { color: var(--ink); }
+.chip.sandbox { color: var(--muted); }
+.chip.none { color: var(--seam); }
+.links { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.links li { border-top: 1px solid var(--rule); padding-top: 10px; display: grid; gap: 4px; }
+.links .t { font-weight: 600; }
+blockquote { margin: 0; font: 400 13px/1.5 var(--mono); color: var(--ink); border-left: 2px solid var(--accent); padding-left: 10px; overflow-wrap: anywhere; }
+blockquote.seamq { border-color: var(--seam); }
+.src { font: 400 12px/1.4 var(--mono); color: var(--muted); overflow-wrap: anywhere; }
+a { color: var(--accent); }
+.tier { font: 600 10px/1 var(--display); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.tier .newtag { color: var(--new); margin-left: 6px; }
+.stepper { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.stepper .count { font: 500 13px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: var(--muted); }
+.legend span { display: inline-flex; gap: 6px; align-items: center; }
+.legend svg { width: 34px; min-width: 0; height: 10px; display: inline; }
+
+.below { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+.below section { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; padding: 18px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.below h3 { font: 700 18px/1.2 var(--display); margin: 0; }
+.below ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.note { font-size: 13px; color: var(--muted); max-width: 90ch; }
+@media (prefers-reduced-motion: reduce) { .edge, .nd rect { transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Agentic AI Foundation · 10 projects · Nov 2026</span>
+    <h1>The AAIF Full Stack</h1>
+    <p class="lede"><a href="https://aaif.io/projects" target="_blank" rel="noopener">Ten projects</a>, one map. The ten are the projects AAIF lists at <a href="https://aaif.io/projects" target="_blank" rel="noopener">aaif.io/projects</a>. Every line on it is a link that one project's own documentation states, with the quote. <strong>Click a project</strong> to read it, or <strong>play a flow</strong> to see how they work together.</p>
+  </header>
+
+  <p class="paths">Here are some of the paths to discover relationships between the projects. <a href="https://github.com/Wolfe-Jam/aaif-stack-map/issues/new?template=share-a-path.yml" target="_blank" rel="noopener"><strong>Share yours.</strong></a></p>
+  <div class="flows" role="group" aria-label="Flows">
+    <span class="label">Flows</span>
+    <button type="button" id="f-coding" data-flow="coding" aria-pressed="false">A coding agent at work</button>
+    <button type="button" id="f-gateway" data-flow="gateway" aria-pressed="false">Through the gateway</button>
+    <button type="button" id="f-a2a" data-flow="a2a" aria-pressed="false">Agents talking to agents</button>
+    <button type="button" id="f-train" data-flow="train" aria-pressed="false">Train, then serve</button>
+    <button type="button" id="f-model" data-flow="model" aria-pressed="false">An app calls a model</button>
+    <label class="toggle"><input type="checkbox" id="seams" checked> Show open seams</label>
+    <button type="button" id="theme" aria-pressed="false">Dark theme</button>
+  </div>
+
+  <div class="main">
+    <div class="board"><svg id="map" viewBox="0 0 1000 505" role="img" aria-label="Diagram of the ten AAIF projects in five layers, with documented links between them"></svg></div>
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </div>
+
+  <div class="legend" aria-label="Legend">
+    <span><svg viewBox="0 0 34 10" aria-hidden="true"><line x1="0" y1="5" x2="34" y2="5" stroke="currentColor" stroke-width="2"/></svg>Documented link (primary source)</span>
+    <span><svg viewBox="0 0 34 10" aria-hidden="true"><line x1="0" y1="5" x2="34" y2="5" stroke="currentColor" stroke-width="2" stroke-dasharray="3 4"/></svg>Mentioned as an example only</span>
+    <span style="color:var(--seam)"><svg viewBox="0 0 34 10" aria-hidden="true"><line x1="0" y1="5" x2="34" y2="5" stroke="currentColor" stroke-width="2" stroke-dasharray="7 5"/></svg>Open seam: no document settles it</span>
+    <span><svg viewBox="0 0 34 10" aria-hidden="true"><rect x="1" y="1" width="32" height="8" fill="none" stroke="currentColor" stroke-dasharray="4 3"/></svg>Outside AAIF (your app, model providers)</span>
+  </div>
+
+  <div class="below">
+    <section>
+      <h3>What the map shows</h3>
+      <ul>
+        <li><strong>MCP is the hub.</strong> Six of the other nine projects document a link to it: goose, agentgateway, Agent Router, OpenEnv, OpenSandbox and A2A. Open Responses names it once, as an example.</li>
+        <li><strong>A2A is the other protocol.</strong> Its own docs call MCP vertical (deepens one agent) and A2A horizontal (connects agents). Both gateways document carrying A2A traffic: agentgateway as a feature, Agent Router as a preview guide with no dedicated A2A route type yet.</li>
+        <li><strong>goose ties the context layer together.</strong> It reads AGENTS.md and loads Agent Skills, its extensions are MCP servers, and Agent Router ships an example that sends goose's model and tool calls through one gateway.</li>
+        <li><strong>OpenSandbox reaches up as well as down.</strong> It serves MCP and ships its own skills as SKILL.md files for coding agents.</li>
+      </ul>
+    </section>
+    <section>
+      <h3>Open seams</h3>
+      <ul>
+        <li><strong>Two gateways.</strong> agentgateway and Agent Router both route LLM, MCP and A2A traffic. Agent Router's proposal 012 cites agentgateway as prior art for MCP tool naming, but no AAIF document says where one gateway ends and the other begins.</li>
+        <li><strong>AGENTS.md and Agent Skills.</strong> Both put instructions in front of an agent; goose reads both. No primary document relates the two.</li>
+        <li><strong>Two things called “skills”.</strong> A2A's Agent Card has an AgentSkill field that describes what an agent can do. It is unrelated to the Agent Skills format (SKILL.md), and neither project's docs mention the other's.</li>
+        <li><strong>No reference architecture.</strong> AAIF has not published one. This map is built from each project's own documentation.</li>
+      </ul>
+    </section>
+    <section>
+      <h3>Stages</h3>
+      <ul>
+        <li><strong>Impact:</strong> MCP, goose, AGENTS.md, Agent Skills, Open Responses.</li>
+        <li><strong>Growth:</strong> A2A, agentgateway, Agent Router, OpenEnv.</li>
+        <li><strong>Sandbox:</strong> OpenSandbox.</li>
+        <li>Source: the technical committee's project table, updated Oct 29, 2026.</li>
+      </ul>
+    </section>
+    <section>
+      <h3>Sources</h3>
+      <ul>
+        <li><a href="https://www.linuxfoundation.org/press/agentic-ai-foundation-announces-four-new-projects-agent-skills-open-responses-openenv-and-opensandbox" target="_blank" rel="noopener">Linux Foundation press release, Oct 22, 2026</a></li>
+        <li><a href="https://github.com/aaif/technical-committee" target="_blank" rel="noopener">AAIF technical committee (project stages)</a></li>
+        <li><a href="https://aaif.io/projects" target="_blank" rel="noopener">aaif.io/projects</a> (the list of all ten projects)</li>
+        <li>Each project's panel links its official docs and its repository.</li>
+        <li><a href="https://github.com/Wolfe-Jam/aaif-stack-map" target="_blank" rel="noopener">Wolfe-Jam/aaif-stack-map</a> (data, verify script, how to propose a link)</li>
+        <li>Each link's quote names its file; click a line or a project to see it.</li>
+      </ul>
+    </section>
+  </div>
+  <p class="note">A community map by James Wolfe, AAIF Ambassador, built from each project's own documentation. Quotes checked against each repository's main branch on Nov 3, 2026; the ten-project list matches aaif.io/projects on the same day. That page still links goose at block/goose and OpenEnv at huggingface/OpenEnv; this map uses the current repositories, aaif-goose/goose and openenv/OpenEnv. A line appears only when a project's own documentation states the link. Lines marked “new” were added in that check.</p>
+</div>
+
+<script>
+(async function () {
+  const load = f => fetch('data/' + f).then(r => { if (!r.ok) throw new Error(f + ' ' + r.status); return r.json(); });
+  let P, L, F;
+  try { [P, L, F] = await Promise.all([load('projects.json'), load('links.json'), load('flows.json')]); }
+  catch (err) { document.getElementById('panel').innerHTML = '<h2>Map data did not load</h2><p>Serve this folder over HTTP (for example <code>bunx serve .</code>) instead of opening the file directly.</p>'; throw err; }
+  const NODES = P.nodes.map(n => ({ ...n, ext: !!n.outside, repo: n.repo ? 'https://github.com/' + n.repo : undefined }));
+  const DOCS = Object.fromEntries(P.nodes.filter(n => n.docs).map(n => [n.id, n.docs]));
+  const BANDS = [['Context', 20, 100], ['Agents & apps', 110, 190], ['Protocols', 205, 295], ['Gateways', 310, 400], ['Run & train', 405, 495]];
+  const GH = 'https://github.com/';
+  const srcText = s => s.repo && s.path ? (s.label ? s.repo + ' (' + s.label + ')' : s.repo + '/blob/main/' + s.path) : (s.note || '');
+  const EDGES = L.links.map(l => ({ id: l.id, a: l.from, b: l.to, t: l.title, q: l.quote, s: srcText(l.source), weak: l.kind === 'example', seam: l.kind === 'seam', isNew: !!l.added, bend: l.bend }));
+  const FLOWS = Object.fromEntries(Object.entries(F.flows).map(([k, f]) => [k, { name: f.name, steps: f.steps.map(s => [s.link, s.caption]) }]));
+
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.getElementById('map');
+  const panel = document.getElementById('panel');
+  const W = 132, H = 44;
+  const byId = Object.fromEntries(NODES.map(n => [n.id, n]));
+  const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const srcLink = s => s.includes('/blob/') ? `<a href="${GH + s}" target="_blank" rel="noopener">${esc(s.replace('/blob/main/', ' › '))}</a>` : (/^[\w.-]+\/[\w.-]+/.test(s) && !s.includes(' · ') ? `<a href="${GH + s.split(' ')[0]}" target="_blank" rel="noopener">${esc(s)}</a>` : esc(s));
+
+  function port(n, tx, ty) {
+    const dx = tx - n.x, dy = ty - n.y;
+    if (!dx && !dy) return [n.x, n.y];
+    const sx = (W / 2 + 3) / Math.abs(dx || 1e-9), sy = (H / 2 + 3) / Math.abs(dy || 1e-9);
+    const s = Math.min(sx, sy);
+    return [n.x + dx * s, n.y + dy * s];
+  }
+
+  BANDS.forEach(([label, y0, y1]) => {
+    el('rect', { class: 'bandrect', x: 8, y: y0, width: 984, height: y1 - y0, rx: 4 }, svg);
+    el('text', { class: 'bandlabel', x: 20, y: y0 + 18 }, svg).textContent = label;
+  });
+
+  const edgeLayer = el('g', {}, svg);
+  const nodeLayer = el('g', {}, svg);
+  const edgeEls = {};
+  EDGES.forEach(e => {
+    const A = byId[e.a], B = byId[e.b];
+    const cx = (A.x + B.x) / 2, cy = (A.y + B.y) / 2 + (e.bend || 0);
+    const p1 = port(A, e.bend ? cx : B.x, e.bend ? cy : B.y), p2 = port(B, e.bend ? cx : A.x, e.bend ? cy : A.y);
+    const d = e.bend ? `M${p1[0]},${p1[1]} Q${cx},${cy} ${p2[0]},${p2[1]}` : `M${p1[0]},${p1[1]} L${p2[0]},${p2[1]}`;
+    const g = el('g', { 'data-edge': e.id }, edgeLayer);
+    const path = el('path', { d, class: 'edge' + (e.weak ? ' weak' : '') + (e.seam ? ' seam' : '') }, g);
+    const hit = el('path', { d, class: 'hit' }, g);
+    el('title', {}, hit).textContent = e.t;
+    hit.addEventListener('click', () => showEdge(e.id));
+    edgeEls[e.id] = { g, path, e };
+  });
+
+  const nodeEls = {};
+  NODES.forEach(n => {
+    const g = el('g', { class: 'nd' + (n.ext ? ' ext' : '') + (n.hub ? ' hub' : ''), tabindex: 0, role: 'button', 'aria-label': n.name + ', ' + n.kind }, nodeLayer);
+    el('rect', { x: n.x - W / 2, y: n.y - H / 2, width: W, height: H, rx: 4 }, g);
+    const t = el('text', { class: 'n', x: n.x, y: n.y - 1, 'text-anchor': 'middle' }, g); t.textContent = n.name;
+    const k = el('text', { class: 'k', x: n.x, y: n.y + 14, 'text-anchor': 'middle' }, g); k.textContent = n.kind;
+    const go = () => showNode(n.id);
+    g.addEventListener('click', go);
+    g.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); go(); } });
+    nodeEls[n.id] = g;
+  });
+
+  const seamsBox = document.getElementById('seams');
+  function applySeams() { EDGES.filter(e => e.seam).forEach(e => { edgeEls[e.id].g.style.display = seamsBox.checked ? '' : 'none'; }); }
+  seamsBox.addEventListener('change', applySeams);
+
+  function highlight(nodeIds, edgeIds) {
+    const any = nodeIds.length || edgeIds.length;
+    NODES.forEach(n => { const g = nodeEls[n.id]; g.classList.toggle('on', nodeIds.includes(n.id)); g.classList.toggle('dim', !!any && !nodeIds.includes(n.id)); });
+    EDGES.forEach(e => { const p = edgeEls[e.id].path; p.classList.toggle('on', edgeIds.includes(e.id)); p.classList.toggle('dim', !!any && !edgeIds.includes(e.id)); });
+  }
+
+  function stageChip(n) {
+    if (n.ext) return '<span class="chip none">Not an AAIF project</span>';
+    return `<span class="chip ${n.stage.toLowerCase()}">${n.stage} stage</span>`;
+  }
+  function edgeItem(e) {
+    return `<li><span class="tier">${e.seam ? 'Open seam' : e.weak ? 'Example only' : 'Documented'}${e.isNew ? '<span class="newtag">· new Nov 3</span>' : ''}</span><span class="t">${esc(e.t)}</span><blockquote class="${e.seam ? 'seamq' : ''}">${esc(e.q)}</blockquote><span class="src">${srcLink(e.s)}</span></li>`;
+  }
+
+  function showNode(id) {
+    setFlow(null);
+    const n = byId[id];
+    const es = EDGES.filter(e => (e.a === id || e.b === id) && (!e.seam || seamsBox.checked));
+    highlight([id, ...es.map(e => e.a === id ? e.b : e.a)], es.map(e => e.id));
+    panel.innerHTML = `<p class="sub">${esc(n.layer)} · ${esc(n.kind)}</p><h2>${esc(n.name)}</h2><div>${stageChip(n)}</div><p>${esc(n.role)}</p>` +
+      (n.ext ? '' : `<dl class="facts"><dt>Contributed by</dt><dd>${esc(n.origin)}</dd><dt>Joined AAIF</dt><dd>${esc(n.joined)}</dd><dt>Docs</dt><dd><a href="${DOCS[n.id]}" target="_blank" rel="noopener">${esc(DOCS[n.id].replace(/^https:\/\/(www\.)?/, ''))}</a></dd><dt>Repository</dt><dd><a href="${n.repo}" target="_blank" rel="noopener">${esc(n.repo.replace('https://github.com/', ''))}</a></dd></dl>`) +
+      `<p class="sub">${es.length} ${es.length === 1 ? 'link' : 'links'} on the map</p><ul class="links">${es.map(edgeItem).join('')}</ul>`;
+  }
+  function showEdge(eid) {
+    setFlow(null);
+    const e = EDGES.find(x => x.id === eid);
+    highlight([e.a, e.b], [eid]);
+    panel.innerHTML = `<p class="sub">${esc(byId[e.a].name)} ↔ ${esc(byId[e.b].name)}</p><h2>${esc(e.t)}</h2><ul class="links">${edgeItem(e)}</ul>`;
+  }
+
+  let flow = null, step = 0;
+  function setFlow(key) {
+    flow = key; step = 0;
+    document.querySelectorAll('[data-flow]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.flow === key)));
+  }
+  function renderFlow() {
+    const f = FLOWS[flow], [eid, caption] = f.steps[step], e = EDGES.find(x => x.id === eid);
+    if (e.seam && !seamsBox.checked) { seamsBox.checked = true; applySeams(); }
+    const seen = f.steps.slice(0, step + 1).map(s => s[0]);
+    const nodes = [...new Set(seen.flatMap(id => { const x = EDGES.find(y => y.id === id); return [x.a, x.b]; }))];
+    highlight(nodes, seen);
+    EDGES.forEach(x => edgeEls[x.id].path.classList.toggle('dim', !seen.includes(x.id)));
+    edgeEls[eid].path.classList.add('on');
+    panel.innerHTML = `<p class="sub">Flow · step ${step + 1} of ${f.steps.length}</p><h2>${esc(f.name)}</h2><p>${esc(caption)}</p><ul class="links">${edgeItem(e)}</ul>` +
+      `<div class="stepper"><button type="button" id="prev" ${step === 0 ? 'disabled' : ''}>Back</button><button type="button" id="next">${step === f.steps.length - 1 ? 'Start over' : 'Next'}</button><span class="count">${step + 1}/${f.steps.length}</span></div>`;
+    document.getElementById('prev').onclick = () => { if (step > 0) { step--; renderFlow(); } };
+    document.getElementById('next').onclick = () => { step = step === f.steps.length - 1 ? 0 : step + 1; renderFlow(); };
+  }
+  document.querySelectorAll('[data-flow]').forEach(b => b.addEventListener('click', () => { setFlow(b.dataset.flow); renderFlow(); }));
+
+  function overview() {
+    highlight([], []);
+    const doc = EDGES.filter(e => !e.seam && !e.weak).length, ex = EDGES.filter(e => e.weak).length, sm = EDGES.filter(e => e.seam).length;
+    panel.innerHTML = `<p class="sub">10 projects · ${doc} documented links · ${ex} example · ${sm} open seams</p><h2>How the stack fits</h2>` +
+      `<p>MCP sits in the middle: six of the other nine projects document a link to it. A2A is the second protocol, for agent-to-agent traffic, and both gateways now document carrying it. Above them, goose reads AGENTS.md and loads Agent Skills. Below them, the two gateways route the traffic, and OpenSandbox and OpenEnv give agents a place to run and to learn.</p>` +
+      `<p>All ten projects now have a stage on the technical committee’s table. Three links were added in the Nov 3 check; their panels say “new”.</p>` +
+      `<p class="sub">Click any project or line. Play a flow to step through it.</p>`;
+  }
+  const themeBtn = document.getElementById('theme');
+  const root = document.documentElement;
+  const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  function syncTheme() { const d = isDark(); themeBtn.textContent = d ? 'Light theme' : 'Dark theme'; themeBtn.setAttribute('aria-pressed', String(d)); }
+  themeBtn.addEventListener('click', () => { root.dataset.theme = isDark() ? 'light' : 'dark'; syncTheme(); });
+  try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncTheme); } catch (e) {}
+  syncTheme();
+
+  overview();
+  applySeams();
+})();
+</script>
+</body>
+</html>

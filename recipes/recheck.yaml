@@ -1,0 +1,24 @@
+version: "1.0.0"
+title: Recheck the AAIF stack map
+description: Runs the verify script against every AAIF project repository, explains any drift, and proposes data-file fixes backed by quotes from the projects' own documentation.
+instructions: |
+  You are maintaining the AAIF stack map in this repository. Read AGENTS.md first and follow it.
+  The map's claims live in data/projects.json, data/links.json and data/flows.json.
+  Never invent a quote or a stage. Every fix must come from a file in the project's own repository,
+  and stages come only from the aaif/technical-committee project table.
+prompt: |
+  1. Run `bun install` if node_modules is missing, then run `bun scripts/verify.ts --json report.json`.
+  2. If every test passes, report the full test output and stop.
+  3. For each failing test:
+     - Quote not found: search the same repository (cached under .cache/repos) for the current wording.
+       If the project still states the link, update the quote and path in data/links.json.
+       If it no longer does, remove the link and any flow step in data/flows.json that uses it.
+     - Stage mismatch: update the stage in data/projects.json to the committee table's value.
+     - Project missing from the map, or count mismatch: do not add the project yourself. Report it.
+  4. Run `bun scripts/verify.ts` again and report the full output.
+  5. Summarize each change: the test that failed, the file you changed, and the quote or table row that justifies it.
+     Do not commit; leave the changes for review.
+extensions:
+  - type: builtin
+    name: developer
+    timeout: 300

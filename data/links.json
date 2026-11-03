@@ -1,0 +1,247 @@
+{
+  "checked": "2026-11-03",
+  "links": [
+    {
+      "id": "e-agents-goose",
+      "from": "agentsmd",
+      "to": "goose",
+      "kind": "documented",
+      "title": "goose reads AGENTS.md",
+      "quote": "By default, goose looks for both `AGENTS.md` and `.goosehints` at each level.",
+      "source": {
+        "repo": "aaif-goose/goose",
+        "path": "documentation/docs/guides/context-engineering/using-goosehints.md"
+      }
+    },
+    {
+      "id": "e-skills-goose",
+      "from": "skills",
+      "to": "goose",
+      "kind": "documented",
+      "title": "goose loads Agent Skills",
+      "quote": "goose skills are compatible with Claude Desktop and other agents that support Agent Skills",
+      "source": {
+        "repo": "aaif-goose/goose",
+        "path": "documentation/docs/guides/context-engineering/using-skills.md"
+      }
+    },
+    {
+      "id": "e-goose-mcp",
+      "from": "goose",
+      "to": "mcp",
+      "kind": "documented",
+      "title": "goose extensions are MCP servers",
+      "quote": "Extensions are based on the Model Context Protocol (MCP)",
+      "source": {
+        "repo": "aaif-goose/goose",
+        "path": "documentation/docs/getting-started/using-extensions.md"
+      }
+    },
+    {
+      "id": "e-goose-router",
+      "from": "goose",
+      "to": "router",
+      "kind": "documented",
+      "title": "goose runs through Agent Router",
+      "quote": "It shows how to create a single agent that handles both LLM (Large Language Model) calls and MCP (Model Context Protocol) tool calls through the same gateway.",
+      "source": {
+        "repo": "theagentrouter/agent-router",
+        "path": "examples/goose/README.md"
+      },
+      "added": "2026-11-03"
+    },
+    {
+      "id": "e-mcp-a2a",
+      "from": "mcp",
+      "to": "a2a",
+      "kind": "documented",
+      "title": "A2A and MCP: two directions",
+      "quote": "MCP is vertical. It deepens a single agent. … A2A is horizontal. It connects agents across that boundary.",
+      "source": {
+        "repo": "a2aproject/A2A",
+        "path": "docs/topics/a2a-and-mcp.md"
+      }
+    },
+    {
+      "id": "e-agw-mcp",
+      "from": "agw",
+      "to": "mcp",
+      "kind": "documented",
+      "title": "agentgateway: MCP gateway",
+      "quote": "MCP Gateway: Connect LLMs to tools and external data sources via MCP",
+      "source": {
+        "repo": "agentgateway/agentgateway",
+        "path": "README.md",
+        "label": "README, Key Features"
+      }
+    },
+    {
+      "id": "e-agw-a2a",
+      "from": "agw",
+      "to": "a2a",
+      "kind": "documented",
+      "title": "agentgateway: A2A gateway",
+      "quote": "A2A Gateway: Enable secure agent-to-agent communication using A2A",
+      "source": {
+        "repo": "agentgateway/agentgateway",
+        "path": "README.md",
+        "label": "README, Key Features"
+      }
+    },
+    {
+      "id": "e-agw-models",
+      "from": "agw",
+      "to": "models",
+      "kind": "documented",
+      "title": "agentgateway: LLM gateway",
+      "quote": "LLM Gateway: Route traffic to major LLM providers",
+      "source": {
+        "repo": "agentgateway/agentgateway",
+        "path": "README.md",
+        "label": "README, Key Features"
+      },
+      "bend": 0
+    },
+    {
+      "id": "e-router-mcp",
+      "from": "router",
+      "to": "mcp",
+      "kind": "documented",
+      "title": "Agent Router reaches MCP servers",
+      "quote": "one consistent, OpenAI-compatible API for every model and tool, from hosted providers to self-hosted inference and MCP servers",
+      "source": {
+        "repo": "theagentrouter/agent-router",
+        "path": "README.md",
+        "label": "README"
+      }
+    },
+    {
+      "id": "e-router-models",
+      "from": "router",
+      "to": "models",
+      "kind": "documented",
+      "title": "Agent Router reaches models",
+      "quote": "one consistent, OpenAI-compatible API for every model and tool, from hosted providers to self-hosted inference and MCP servers",
+      "source": {
+        "repo": "theagentrouter/agent-router",
+        "path": "README.md",
+        "label": "README"
+      },
+      "bend": 150
+    },
+    {
+      "id": "e-router-a2a",
+      "from": "router",
+      "to": "a2a",
+      "kind": "documented",
+      "title": "Agent Router: A2A traffic (preview)",
+      "quote": "Agent Router does not yet have a dedicated A2A route type. This page shows how to route A2A agents through the gateway today, using only Envoy Gateway resources plus the envoy.filters.http.a2a filter",
+      "source": {
+        "repo": "theagentrouter/agent-router",
+        "path": "site/docs/capabilities/a2a/index.md"
+      },
+      "added": "2026-11-03"
+    },
+    {
+      "id": "e-env-mcp",
+      "from": "openenv",
+      "to": "mcp",
+      "kind": "documented",
+      "title": "OpenEnv serves tools over MCP",
+      "quote": "MCP environments expose their tools to agents over `/mcp` in production mode",
+      "source": {
+        "repo": "openenv/OpenEnv",
+        "path": "README.md",
+        "label": "README"
+      }
+    },
+    {
+      "id": "e-sandbox-mcp",
+      "from": "sandbox",
+      "to": "mcp",
+      "kind": "documented",
+      "title": "OpenSandbox ships an MCP server",
+      "quote": "The OpenSandbox MCP server exposes sandbox creation, command execution, and text file operations to MCP-capable clients",
+      "source": {
+        "repo": "opensandbox-group/OpenSandbox",
+        "path": "README.md",
+        "label": "README, MCP"
+      }
+    },
+    {
+      "id": "e-sandbox-skills",
+      "from": "sandbox",
+      "to": "skills",
+      "kind": "documented",
+      "title": "OpenSandbox ships skills as SKILL.md",
+      "quote": "The CLI ships with built-in OpenSandbox skills for coding agents and agent-oriented tools. … `./.agents/skills/<name>/SKILL.md`",
+      "source": {
+        "repo": "opensandbox-group/OpenSandbox",
+        "path": "cli/README.md"
+      },
+      "added": "2026-11-03"
+    },
+    {
+      "id": "e-app-responses",
+      "from": "app",
+      "to": "responses",
+      "kind": "documented",
+      "title": "An app speaks Open Responses",
+      "quote": "It defines a shared request/response model, streaming…",
+      "source": {
+        "repo": "openresponses/openresponses",
+        "path": "README.md",
+        "label": "README"
+      }
+    },
+    {
+      "id": "e-responses-models",
+      "from": "responses",
+      "to": "models",
+      "kind": "documented",
+      "title": "Open Responses: one interface, many providers",
+      "quote": "multi-provider, interoperable LLM interfaces inspired by the OpenAI Responses API",
+      "source": {
+        "repo": "openresponses/openresponses",
+        "path": "README.md",
+        "label": "README"
+      },
+      "bend": -150
+    },
+    {
+      "id": "e-responses-mcp",
+      "from": "responses",
+      "to": "mcp",
+      "kind": "example",
+      "title": "Open Responses names MCP as an example",
+      "quote": "MCP is another example, where external servers host the implementations",
+      "source": {
+        "repo": "openresponses/openresponses",
+        "path": "src/specifications/2026-04-24.mdx"
+      }
+    },
+    {
+      "id": "s-gateways",
+      "from": "router",
+      "to": "agw",
+      "kind": "seam",
+      "title": "Open seam: two gateways",
+      "quote": "Both route LLM, MCP and A2A traffic. Agent Router’s proposal 012 cites agentgateway as prior art for MCP tool-name prefixing. No AAIF document says where one gateway ends and the other begins.",
+      "source": {
+        "repo": "theagentrouter/agent-router",
+        "path": "docs/proposals/012-mcp-tool-name-prefix-mode/proposal.md"
+      }
+    },
+    {
+      "id": "s-context",
+      "from": "agentsmd",
+      "to": "skills",
+      "kind": "seam",
+      "title": "Open seam: AGENTS.md and Agent Skills",
+      "quote": "Both put instructions in front of an agent, and goose reads both. No primary document relates the two formats.",
+      "source": {
+        "note": "agentsmd/agents.md · agentskills/agentskills"
+      }
+    }
+  ]
+}

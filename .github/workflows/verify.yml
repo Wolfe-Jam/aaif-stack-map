@@ -1,0 +1,56 @@
+name: verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "17 13 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      - run: bun install --frozen-lockfile
+      - run: bunx tsc --noEmit
+      - name: Verify every claim against the source repositories
+        id: verify
+        run: bun scripts/verify.ts --json report.json | tee verify.txt
+        shell: bash -o pipefail {0}
+      - name: Open an issue when the scheduled check finds drift
+        if: failure() && steps.verify.outcome == 'failure' && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo "The scheduled verify run found claims that no longer match their sources."
+            echo
+            echo '```'
+            grep -E "FAIL|passed" verify.txt
+            echo '```'
+            echo
+            echo "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo
+            echo "To fix with goose: goose run --recipe recipes/recheck.yaml"
+          } > body.md
+          existing=$(gh issue list --label drift --state open --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body-file body.md
+          else
+            gh label create drift --color B60205 --description "A claim no longer matches its source" 2>/dev/null || true
+            gh issue create --title "Verify: drift found" --label drift --body-file body.md
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verify-report
+          path: report.json
