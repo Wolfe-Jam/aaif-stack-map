@@ -38,7 +38,7 @@ It prints every test and exits non-zero if any fails. CI runs it on every push a
 
 ## Contribute
 
-- **Share a path:** [open a path issue](https://github.com/Wolfe-Jam/aaif-stack-map/issues/new?template=share-a-path.yml). Here are some of the paths to discover relationships between the projects. Share yours.
+- **Share a path:** these are some of the paths to discover relationships between the projects: the five flows on the map. Share yours: [open a path issue](https://github.com/Wolfe-Jam/aaif-stack-map/issues/new?template=share-a-path.yml).
 - **Propose a link:** [open a link issue](https://github.com/Wolfe-Jam/aaif-stack-map/issues/new?template=propose-a-link.yml) with the quote and the source file URL, or send a pull request.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
