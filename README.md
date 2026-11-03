@@ -30,9 +30,9 @@ The script clones each source repository (shallow, into `.cache/repos`) and runs
 
 | Tier | Checks |
 | --- | --- |
-| 1 · Brake systems | Every source repository is reachable, every source file exists, and every quote still appears in its file. |
-| 2 · Engine systems | Every stage matches the technical committee table, and the map has exactly the projects the table lists. |
-| 3 · Aerodynamics | The data files are consistent: unique ids, links between real nodes, flow steps that name real links, complete project records. |
+| 1 · Sources | Every source repository is reachable, every source file exists, and every quote still appears in its file. |
+| 2 · Stages | Every stage matches the technical committee table, and the map has exactly the projects the table lists. |
+| 3 · Data | The data files are consistent: unique ids, links between real nodes, flow steps that name real links, complete project records. |
 
 It prints every test and exits non-zero if any fails. CI runs it on every push and pull request and once a week; when the weekly run finds drift, it opens an issue labelled `drift`.
 

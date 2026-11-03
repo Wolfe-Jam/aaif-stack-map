@@ -6,7 +6,7 @@ The map makes one kind of claim: a project's own documentation states a link to 
 
 A path is a route through the map that shows how projects work together. [Open a path issue](https://github.com/Wolfe-Jam/aaif-stack-map/issues/new?template=share-a-path.yml) with the steps in order. A path can use only links the map has; if it needs a new one, propose that link too.
 
-To add a path yourself, add a flow to `data/flows.json`. Each step names a link id and gives one sentence of caption. Add a button for it in `index.html` next to the other flows.
+To add a path yourself, add a flow to `data/flows.json`. Each step names a link id and gives one sentence of caption. The page adds its button.
 
 ## Propose a link
 

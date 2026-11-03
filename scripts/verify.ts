@@ -1,8 +1,8 @@
 #!/usr/bin/env bun
 // Verifies every claim the map makes against the projects' own repositories.
-// Tier 1 BRAKE: every quote still appears in its source file; every source file exists.
-// Tier 2 ENGINE: every stage matches the AAIF technical committee table; the project count matches.
-// Tier 3 AERO: the data files are internally consistent.
+// Tier 1 SOURCES: every quote still appears in its source file; every source file exists.
+// Tier 2 STAGES: every stage matches the AAIF technical committee table; the project count matches.
+// Tier 3 DATA: the data files are internally consistent.
 // Usage: bun scripts/verify.ts [--repos-dir <dir>] [--json <file>]
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -149,7 +149,7 @@ if (readme) {
 
 // --- Report -----------------------------------------------------------------
 
-const TIER_NAME: Record<Tier, string> = { 1: "BRAKE SYSTEMS", 2: "ENGINE SYSTEMS", 3: "AERODYNAMICS" };
+const TIER_NAME: Record<Tier, string> = { 1: "SOURCES", 2: "STAGES", 3: "DATA" };
 let failed = 0;
 for (const tier of [1, 2, 3] as const) {
   const rows = results.filter(r => r.tier === tier);

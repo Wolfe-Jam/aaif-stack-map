@@ -58,7 +58,7 @@
         },
         {
           "link": "s-gateways",
-          "caption": "The two now overlap on models, MCP and A2A. Agent Router cites agentgateway’s design, but no AAIF document draws the line between them."
+          "caption": "The two now overlap on models and MCP, and both document A2A. Agent Router cites agentgateway’s design, but no AAIF document draws the line between them."
         }
       ]
     },
@@ -84,7 +84,11 @@
       "steps": [
         {
           "link": "e-env-mcp",
-          "caption": "In training an agent acts through step(). In production the same environment serves its tools over /mcp. OpenEnv’s RFC 003, still in review, says this reuses its own HTTP transport with MCP’s JSON-RPC message format, and that standard Streamable HTTP is planned."
+          "caption": "In training, an agent acts in an OpenEnv environment through step()."
+        },
+        {
+          "link": "e-env-mcp",
+          "caption": "In production, the same environment serves its tools over /mcp. OpenEnv’s RFC 003, still in review, says this reuses its own HTTP transport with MCP’s JSON-RPC message format, and that standard Streamable HTTP is planned."
         }
       ]
     },

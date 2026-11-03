@@ -226,7 +226,7 @@
       "to": "agw",
       "kind": "seam",
       "title": "Open seam: two gateways",
-      "quote": "Both route LLM, MCP and A2A traffic. Agent Router’s proposal 012 cites agentgateway as prior art for MCP tool-name prefixing. No AAIF document says where one gateway ends and the other begins.",
+      "quote": "Both route LLM and MCP traffic, and both document A2A: agentgateway as a gateway feature, Agent Router through a preview guide. Agent Router’s proposal 012 cites agentgateway as prior art for MCP tool-name prefixing. No AAIF document says where one gateway ends and the other begins.",
       "source": {
         "repo": "theagentrouter/agent-router",
         "path": "docs/proposals/012-mcp-tool-name-prefix-mode/proposal.md"

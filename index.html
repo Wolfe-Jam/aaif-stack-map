@@ -128,11 +128,6 @@ a { color: var(--accent); }
   <p class="paths">Here are some of the paths to discover relationships between the projects. <a href="https://github.com/Wolfe-Jam/aaif-stack-map/issues/new?template=share-a-path.yml" target="_blank" rel="noopener"><strong>Share yours.</strong></a></p>
   <div class="flows" role="group" aria-label="Flows">
     <span class="label">Flows</span>
-    <button type="button" id="f-coding" data-flow="coding" aria-pressed="false">A coding agent at work</button>
-    <button type="button" id="f-gateway" data-flow="gateway" aria-pressed="false">Through the gateway</button>
-    <button type="button" id="f-a2a" data-flow="a2a" aria-pressed="false">Agents talking to agents</button>
-    <button type="button" id="f-train" data-flow="train" aria-pressed="false">Train, then serve</button>
-    <button type="button" id="f-model" data-flow="model" aria-pressed="false">An app calls a model</button>
     <label class="toggle"><input type="checkbox" id="seams" checked> Show open seams</label>
     <button type="button" id="theme" aria-pressed="false">Dark theme</button>
   </div>
@@ -162,7 +157,7 @@ a { color: var(--accent); }
     <section>
       <h3>Open seams</h3>
       <ul>
-        <li><strong>Two gateways.</strong> agentgateway and Agent Router both route LLM, MCP and A2A traffic. Agent Router's proposal 012 cites agentgateway as prior art for MCP tool naming, but no AAIF document says where one gateway ends and the other begins.</li>
+        <li><strong>Two gateways.</strong> agentgateway and Agent Router both route LLM and MCP traffic, and both document A2A (Agent Router as a preview guide). Agent Router's proposal 012 cites agentgateway as prior art for MCP tool naming, but no AAIF document says where one gateway ends and the other begins.</li>
         <li><strong>AGENTS.md and Agent Skills.</strong> Both put instructions in front of an agent; goose reads both. No primary document relates the two.</li>
         <li><strong>Two things called “skills”.</strong> A2A's Agent Card has an AgentSkill field that describes what an agent can do. It is unrelated to the Agent Skills format (SKILL.md), and neither project's docs mention the other's.</li>
         <li><strong>No reference architecture.</strong> AAIF has not published one. This map is built from each project's own documentation.</li>
@@ -205,6 +200,13 @@ a { color: var(--accent); }
   const srcText = s => s.repo && s.path ? (s.label ? s.repo + ' (' + s.label + ')' : s.repo + '/blob/main/' + s.path) : (s.note || '');
   const EDGES = L.links.map(l => ({ id: l.id, a: l.from, b: l.to, t: l.title, q: l.quote, s: srcText(l.source), weak: l.kind === 'example', seam: l.kind === 'seam', isNew: !!l.added, bend: l.bend }));
   const FLOWS = Object.fromEntries(Object.entries(F.flows).map(([k, f]) => [k, { name: f.name, steps: f.steps.map(s => [s.link, s.caption]) }]));
+  // One button per flow in data/flows.json, so a new flow needs no change here.
+  const seamsToggle = document.getElementById('seams').closest('label');
+  for (const [k, f] of Object.entries(FLOWS)) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.id = 'f-' + k; b.dataset.flow = k; b.setAttribute('aria-pressed', 'false'); b.textContent = f.name;
+    seamsToggle.before(b);
+  }
 
   const NS = 'http://www.w3.org/2000/svg';
   const svg = document.getElementById('map');
