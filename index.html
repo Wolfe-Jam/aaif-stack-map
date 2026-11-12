@@ -36,7 +36,6 @@
   --accent-soft: #D3EAEC;
   --seam: #A8432B;
   --weak: #8A979F;
-  --node: #FFFFFF;
   --new: #9A6B00;
   --display: "IBM Plex Sans Condensed", "Arial Narrow", Arial, sans-serif;
   --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
@@ -44,11 +43,11 @@
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --ground: #0E151A; --sheet: #131C22; --ink: #E4EAED; --muted: #93A2AC; --rule: #2B3842;
-  --band: #18232A; --accent: #45C1CC; --accent-soft: #123238; --seam: #E07A5E; --weak: #6D7C86; --node: #1A262E; --new: #E3B341;
+  --band: #18232A; --accent: #45C1CC; --accent-soft: #123238; --seam: #E07A5E; --weak: #6D7C86; --new: #E3B341;
   color-scheme: dark } }
 :root[data-theme="dark"] {
   --ground: #0E151A; --sheet: #131C22; --ink: #E4EAED; --muted: #93A2AC; --rule: #2B3842;
-  --band: #18232A; --accent: #45C1CC; --accent-soft: #123238; --seam: #E07A5E; --weak: #6D7C86; --node: #1A262E; --new: #E3B341;
+  --band: #18232A; --accent: #45C1CC; --accent-soft: #123238; --seam: #E07A5E; --weak: #6D7C86; --new: #E3B341;
   color-scheme: dark }
 
 body { margin: 0; background: var(--ground); color: var(--ink); font: 15px/1.55 var(--body); }
@@ -96,6 +95,7 @@ svg { display: block; width: 100%; min-width: 640px; height: auto; }
 .nd.hub rect { stroke: var(--accent); stroke-width: 3.4; }
 .nd.hub text.n { font-size: 17px; font-weight: 700; }
 .nd.on rect { stroke: var(--accent); stroke-width: 2.6; fill: var(--accent-soft); }
+.nd.hub.on rect { stroke-width: 3.4; }
 .nd.on text.n { fill: var(--ink); }
 .nd.on text.k { fill: var(--muted); }
 .nd.dim { opacity: .28; }
