@@ -6,6 +6,15 @@ Instructions for coding agents (goose, Claude Code, Codex and others) working in
 
 An interactive map of the ten Agentic AI Foundation (AAIF) projects and the links between them. Every link on the map is backed by a quote from one project's own documentation, with the file the quote comes from.
 
+## Commands
+
+```sh
+bun install              # dev dependencies only: TypeScript and Bun's types
+bunx serve .             # serve the page, then open the address it prints (opening index.html as a file won't load the data)
+bun scripts/verify.ts    # check every claim against the source repositories
+bunx tsc --noEmit        # typecheck the verify script
+```
+
 ## Where things live
 
 - `data/projects.json`: the ten projects (stage, docs, repository, technical committee name) plus the two outside nodes, "Your app" and "Models".
@@ -13,6 +22,7 @@ An interactive map of the ten Agentic AI Foundation (AAIF) projects and the link
 - `data/flows.json`: the guided flows. Each step names a link id.
 - `index.html`: the page. It reads the three data files and holds no data of its own.
 - `scripts/verify.ts`: checks every claim against the source repositories.
+- `project.faf`: the repository's facts (stack, commands, data files) as structured YAML, for agents that read it.
 
 ## Rules
 
@@ -22,6 +32,12 @@ An interactive map of the ten Agentic AI Foundation (AAIF) projects and the link
 4. The project list comes only from aaif.io/projects. Do not add a project that page does not list.
 5. Mark new links with `"added": "YYYY-MM-DD"`, the date you verified them.
 6. Do not change `index.html` to change data. Change the data files.
+
+## Leave alone
+
+- `.cache/`: the verify script's shallow clones of the source repositories. Never commit it.
+- `bun.lock`: change it only when you change a dependency in `package.json`.
+- `report.json`: verify's `--json` output, not part of the repository.
 
 ## Before you finish
 
