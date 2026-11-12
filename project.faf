@@ -1,0 +1,45 @@
+faf_version: "3.0"
+project:
+  name: aaif-stack-map
+  goal: An interactive map of the ten [Agentic AI Foundation](https://aaif.io/projects) projects and the links between them. Every line on the map is a link that one project's own documentation states, with the quote and the file it comes from.
+  main_language: TypeScript
+  type: html  # found: index.html (vanilla, no frontend framework)
+stack:
+  frontend: slotignored
+  css_framework: slotignored
+  ui_library: slotignored
+  state_management: slotignored
+  backend: slotignored
+  api_type: slotignored
+  runtime: slotignored
+  database: slotignored
+  connection: slotignored
+  hosting: "GitHub Pages"
+  build: "none (static page; tsc typechecks scripts/verify.ts)"
+  cicd: GitHub Actions
+  monorepo_tool: slotignored
+  package_manager: slotignored
+  workspaces: slotignored
+  admin: slotignored
+  cache: slotignored
+  search: slotignored
+  storage: slotignored
+human_context:
+  who: "Developers, newcomers and AAIF ambassadors working out how the AAIF projects fit together, and the projects' maintainers, who can confirm their details."
+  what: An interactive map of the ten [Agentic AI Foundation](https://aaif.io/projects) projects and the links between them. Every line on the map is a link that one project's own documentation states, with the quote and the file it comes from.
+  why: "One page for how the AAIF projects connect, every line backed by a project's own docs."
+  where: "https://wolfe-jam.github.io/aaif-stack-map/ (source: github.com/Wolfe-Jam/aaif-stack-map)"
+  when: "Built November 2026 against aaif.io/projects and the technical committee table; re-verified weekly in CI."
+  how: "A static page reads three JSON files (projects, links, flows). scripts/verify.ts clones each source repository and checks every quote, stage and data reference, on every push and weekly, opening a drift issue when one fails. Claims live in data, not code."
+monorepo:
+  packages_count: slotignored
+  build_orchestrator: slotignored
+  versioning_strategy: slotignored
+  shared_configs: slotignored
+  remote_cache: slotignored
+tech_stack:
+  - TypeScript
+key_files:
+  - package.json
+  - README.md
+  - tsconfig.json
