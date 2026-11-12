@@ -55,7 +55,13 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
   goose run --recipe recipes/recheck.yaml
   ```
 
-**Works with goose.** goose reads `AGENTS.md` first. When the weekly verify opens a `drift` issue, run the recipe: goose finds the current wording in the project's own repository, updates the data file and re-runs verify. It doesn't commit; you review the change.
+- [`recipes/review-pr.yaml`](recipes/review-pr.yaml) is a goose recipe that reviews a pull request against AGENTS.md and CONTRIBUTING.md, with verify and typecheck, in its own worktree. Report only:
+
+  ```sh
+  goose run --recipe recipes/review-pr.yaml --params pr=<number>
+  ```
+
+**Works with goose.** goose reads `AGENTS.md` first. When the weekly verify opens a `drift` issue, run `recheck.yaml`: goose finds the current wording in the project's own repository, updates the data file and re-runs verify. Pull requests are reviewed with `review-pr.yaml` before they're merged. Neither commits or comments; you review and merge.
 
 ## Data
 

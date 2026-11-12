@@ -1,0 +1,36 @@
+version: "1.0.0"
+title: Review a pull request to the AAIF stack map
+description: Checks out a pull request in a separate worktree, runs verify and typecheck, reviews the change against AGENTS.md and CONTRIBUTING.md, and writes a short report. Report only.
+parameters:
+  - key: pr
+    input_type: string
+    requirement: required
+    description: The pull request number to review
+instructions: |
+  You are reviewing pull request #{{ pr }} to the AAIF stack map. Read AGENTS.md and CONTRIBUTING.md first and judge the change by them.
+  Report only: never comment on, approve, merge, push to or edit the pull request, and change no file in the main checkout.
+  Never invent a quote, stage or date. A finding must point at a file and line, or at a command's output.
+prompt: |
+  1. Read the pull request: `gh pr view {{ pr }} --json title,author,body,files` and `gh pr diff {{ pr }}`.
+  2. Check it out in its own worktree so the main checkout is untouched:
+     `git fetch origin pull/{{ pr }}/head:review-{{ pr }}` then `git worktree add .cache/review-{{ pr }} review-{{ pr }}`.
+  3. In that worktree run `bun install` (if `bun.lock` changes, it was your Bun, not the pull request: note it and run `git checkout bun.lock`),
+     then `bun scripts/verify.ts` and `bunx tsc --noEmit`. Keep the full output.
+  4. Review the change:
+     - Links (`data/links.json`): each quote is in the source file, copied as a reader sees it, from that project's own docs on its default branch; the title and kind say no more than the quote does; a seam is labelled as the map's own wording.
+     - Projects (`data/projects.json`): stages only from the aaif/technical-committee table; origin and joined only from a cited source (AGENTS.md rule 7).
+     - Counts and dates: if the change makes a sentence listed in CONTRIBUTING ("Sentences that state counts and dates") wrong, it updates it.
+     - Confirmations (`confirmed/<id>.md`): the file name is a project id in data/projects.json; the details match the map as of the pull request; the handle after `Verified by: @` is the pull request's author (from step 1). A confirmation needs nothing else: don't ask a confirmer for verify output.
+     - Page (`index.html`): data changes go in data files, not the page; anything that could break keyboard use, phones or the panel.
+     - Docs: every statement matches what the code and data do.
+  5. Write the report to `.cache/review-pr-{{ pr }}.md` and print it:
+     - first line `# Review (goose): pull request #{{ pr }}`
+     - verdict first: merge / merge after fixes / don't merge
+     - findings, most important first: file:line, what's wrong, a suggested fix, and how likely a reader or contributor meets it (common / plausible / contrived)
+     - the verify and typecheck results (pass counts; any failure in full)
+     - what you did not check
+  6. Clean up: `git worktree remove .cache/review-{{ pr }}` and `git branch -D review-{{ pr }}`.
+extensions:
+  - type: builtin
+    name: developer
+    timeout: 300
