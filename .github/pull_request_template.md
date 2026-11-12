@@ -1,3 +1,5 @@
+<!-- Confirming a project (a file in confirmed/)? Nothing else is needed: you can leave the rest of this template as it is. -->
+
 ## What changed
 
 <!-- One or two lines. For a new link: the two projects, and the kind (documented or example). -->

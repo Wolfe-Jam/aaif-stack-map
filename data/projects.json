@@ -119,7 +119,7 @@
       "layer": "Gateways",
       "x": 260,
       "y": 355,
-      "origin": "Envoy AI Gateway, renamed",
+      "origin": "Envoy AI Gateway (renamed)",
       "stage": "Growth",
       "role": "The control plane for agent traffic: one OpenAI-compatible API for models and MCP servers, with a preview guide for A2A traffic.",
       "repo": "theagentrouter/agent-router",
