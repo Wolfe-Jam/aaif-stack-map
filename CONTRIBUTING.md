@@ -20,7 +20,7 @@ The [add-aaif-link skill](.agents/skills/add-aaif-link/SKILL.md) walks through t
 
 ## Confirm your project
 
-If you work on one of the projects, check its details on the map, and if they're right, add `confirmed/<project id>.md` with your GitHub name and the date. Your project's "Check your details" issue opens the file ready to fill in; [confirmed/README.md](confirmed/README.md) has the format. If something's wrong, say so in the issue or fix it in the same pull request.
+If you work on one of the projects, open its "Check your details" issue. Its confirm link opens `confirmed/<project id>.md` with the project's details as the map shows them; if they're right, add your GitHub handle after `Verified by: @` and press "Propose new file". If something's wrong, say so in the issue or fix it in a pull request. [confirmed/README.md](confirmed/README.md) has more.
 
 ## What the map does not take
 
