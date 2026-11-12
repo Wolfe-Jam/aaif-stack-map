@@ -8,7 +8,7 @@ instructions: |
   and stages come only from the aaif/technical-committee project table.
 prompt: |
   1. Run `bun install` if node_modules is missing, then run `bun scripts/verify.ts --json report.json`.
-  2. If every test passes, report the full test output and stop.
+  2. If every test passes, report the full test output, every line, not a summary, and stop.
   3. For each failing test:
      - Quote not found: search the same repository (cached under .cache/repos) for the current wording.
        If the project still states the link, update the quote and path in data/links.json.
