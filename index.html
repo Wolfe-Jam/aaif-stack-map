@@ -279,7 +279,7 @@ a { color: var(--accent); }
     return `<span class="chip ${n.stage.toLowerCase()}">${n.stage} stage</span>`;
   }
   function edgeItem(e) {
-    return `<li><span class="tier">${e.seam ? 'Open seam' : e.weak ? 'Example only' : 'Documented'}${e.added ? `<span class="newtag">· new ${shortDate(e.added)}</span>` : ''}</span><span class="t">${esc(e.t)}</span><blockquote class="${e.seam ? 'seamq' : ''}">${esc(e.q)}</blockquote><span class="src">${srcLink(e.s)}</span></li>`;
+    return `<li><span class="tier">${e.seam ? 'Open seam' : e.weak ? 'Example only' : 'Documented'}${e.added ? `<span class="newtag">· new ${shortDate(e.added)}</span>` : ''}</span><span class="t">${esc(e.t)}</span><blockquote class="${e.seam ? 'seamq' : ''}">${esc(e.q)}</blockquote><span class="src">${e.seam && e.s.repo ? 'Prior art cited in: ' : ''}${srcLink(e.s)}</span></li>`;
   }
 
   function showNode(id) {
