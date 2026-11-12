@@ -24,6 +24,7 @@ bunx tsc --noEmit        # typecheck the verify script
 - `data/flows.json`: the guided flows. Each step names a link id.
 - `index.html`: the page. It reads the three data files. A few sentences on it state counts and dates; CONTRIBUTING lists them.
 - `scripts/verify.ts`: checks every claim against the source repositories.
+- `assets/`: the link card (`og.png`, a picture of the map) and the icons. The card goes stale when projects or links change.
 - `project.faf`: the repository's facts (what it is, who it's for, stack, hosting, how it works) as structured YAML, for agents that read it.
 
 ## Rules
