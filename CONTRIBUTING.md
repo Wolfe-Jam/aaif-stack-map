@@ -18,6 +18,10 @@ To add a path yourself, add a flow to `data/flows.json`. Each step names a link 
 
 The [add-aaif-link skill](.agents/skills/add-aaif-link/SKILL.md) walks through the steps.
 
+## Confirm your project
+
+If you work on one of the projects, check its details on the map, and if they're right, add `confirmed/<project id>.md` with your GitHub name and the date. Your project's "Check your details" issue opens the file ready to fill in; [confirmed/README.md](confirmed/README.md) has the format. If something's wrong, say so in the issue or fix it in the same pull request.
+
 ## What the map does not take
 
 - Links inferred from code, blog posts, talks or social posts, however reasonable.

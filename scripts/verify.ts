@@ -5,7 +5,7 @@
 // Tier 3 DATA: the data files are internally consistent.
 // Usage: bun scripts/verify.ts [--repos-dir <dir>] [--json <file>]
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 
 type Kind = "documented" | "example" | "seam";
@@ -100,6 +100,20 @@ for (const p of projects) {
   if (p.docs) record(3, `project ${p.id}: docs link is https`, p.docs.startsWith("https://"), p.docs);
   if (p.stage) record(3, `project ${p.id}: stage is a known stage`, (STAGES as readonly string[]).includes(p.stage), p.stage);
 }
+// confirmed/<project id>.md: one file per project, added by someone from that project (see CONTRIBUTING).
+const projectIds = new Set(projects.map(p => p.id));
+const confirmedDir = join(ROOT, "confirmed");
+const confirmed = existsSync(confirmedDir) ? readdirSync(confirmedDir).filter(f => f.endsWith(".md") && f !== "README.md") : [];
+for (const file of confirmed) {
+  const id = file.slice(0, -".md".length);
+  record(3, `confirmed/${file}: names a project`, projectIds.has(id), projectIds.has(id) ? id : `no project with id "${id}" in data/projects.json`);
+  const text = readFileSync(join(confirmedDir, file), "utf8");
+  const by = /^Confirmed by:\s*@?([A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)\s*$/m.exec(text)?.[1];
+  const date = /^Date:\s*(\d{4}-\d{2}-\d{2})\s*$/m.exec(text)?.[1];
+  const named = Boolean(by && by !== "your-github-name");
+  record(3, `confirmed/${file}: has a GitHub name and a date`, named && Boolean(date), named && date ? `@${by}, ${date}` : "fill in Confirmed by: @name and Date: YYYY-MM-DD");
+}
+
 for (const l of links.filter(l => l.kind !== "seam")) {
   record(3, `link ${l.id}: has a repository source`, Boolean(l.source.repo && l.source.path), l.source.repo ? `${l.source.repo}/${l.source.path}` : "no source");
 }
