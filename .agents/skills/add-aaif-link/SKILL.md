@@ -15,7 +15,7 @@ A link on the map is a claim that one project's documentation states a relations
 
    ```json
    {
-     "id": "e-<from>-<to>",
+     "id": "e-<a>-<b>",
      "from": "<project id>",
      "to": "<project id>",
      "kind": "documented",
@@ -27,6 +27,10 @@ A link on the map is a claim that one project's documentation states a relations
    ```
 
    Use `"kind": "example"` when the source only names the other project as an example. Project ids are in `data/projects.json`.
+
+   `from` and `to` are the line's two ends, in any order (the page draws no arrow). The id is `e-` plus two short names for the ends; it only has to be unique. `source` may add a `label`, shown next to the file name.
+
+   Adding a link can change counts and dates stated on the page and in the README. CONTRIBUTING lists those sentences; update any your link makes wrong.
 
 4. **Check the drawing.** Open the page (`bunx serve .`) and confirm the new line does not pass through another project's box. If it does, add `"bend"` (a vertical offset in map units, positive bends down) or ask before moving a node.
 5. **Add it to a flow** only if it extends a flow's story. Each step in `data/flows.json` names a link id and gives a one-sentence caption.

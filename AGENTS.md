@@ -22,9 +22,9 @@ bunx tsc --noEmit        # typecheck the verify script
 - `data/projects.json`: the ten projects (stage, docs, repository, technical committee name) plus the two outside nodes, "Your app" and "Models".
 - `data/links.json`: every line on the map. `kind` is `documented`, `example` or `seam`.
 - `data/flows.json`: the guided flows. Each step names a link id.
-- `index.html`: the page. It reads the three data files and holds no data of its own.
+- `index.html`: the page. It reads the three data files. A few sentences on it state counts and dates; CONTRIBUTING lists them.
 - `scripts/verify.ts`: checks every claim against the source repositories.
-- `project.faf`: the repository's facts (stack, commands, data files) as structured YAML, for agents that read it.
+- `project.faf`: the repository's facts (what it is, who it's for, stack, hosting, how it works) as structured YAML, for agents that read it.
 
 ## Rules
 
@@ -33,7 +33,8 @@ bunx tsc --noEmit        # typecheck the verify script
 3. Stages come only from the project table in `aaif/technical-committee`. Do not infer a stage from a blog post or announcement.
 4. The project list comes only from aaif.io/projects. Do not add a project that page does not list.
 5. Mark new links with `"added": "YYYY-MM-DD"`, the date you verified them.
-6. Do not change `index.html` to change data. Change the data files.
+6. Do not change `index.html` to change data. Change the data files. If a change makes a count or date on the page or in the README wrong, update that sentence too (CONTRIBUTING lists them).
+7. A project's `origin` and `joined` appear only when a cited source states them (the AAIF or Linux Foundation announcement, aaif.io). Otherwise leave them out.
 
 ## Leave alone
 

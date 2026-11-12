@@ -14,4 +14,5 @@
 ```
 
 - [ ] `bun scripts/verify.ts` passes
+- [ ] `bun.lock` is unchanged, unless you changed a dependency (Bun 1.3 rewrites it: `git checkout bun.lock`)
 - [ ] `bunx tsc --noEmit` passes
