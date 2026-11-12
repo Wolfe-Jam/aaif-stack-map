@@ -29,6 +29,7 @@ If you work on one of the projects, open its "Check your details" issue. Its con
 A few sentences hold numbers the data can change. When your change makes one wrong, update it in the same pull request:
 
 - README, "What it shows": the counts of projects, links, examples, seams and flows.
+- `assets/og.png`, the link card, is a picture of the map: if your change adds or removes a project or a line, say so in the pull request and the card will be redrawn.
 - `index.html`: the line under the title (project count and month), "MCP is the hub" and "MCP sits in the middle" (how many projects link to MCP), the stage lists and the committee table's date, and the overview's sentence about links added in a check.
 
 ## What the map does not take
