@@ -10,9 +10,15 @@ prompt: |
   1. Run `bun install` if node_modules is missing, then run `bun scripts/verify.ts --json report.json`.
   2. If every test passes, report the full test output, every line, not a summary, and stop.
   3. For each failing test:
-     - Quote not found: search the same repository (cached under .cache/repos) for the current wording.
+     - Quote not found: search the same repository for the current wording. The cache under .cache/repos
+       holds only git data, no working files: use `git -C .cache/repos/<owner>_<name> grep -n "<words>" HEAD`
+       and `git -C .cache/repos/<owner>_<name> show HEAD:<path>`.
        If the project still states the link, update the quote and path in data/links.json.
        If it no longer does, remove the link and any flow step in data/flows.json that uses it.
+     - Source file not found: the file may have moved. Find the quote with `git grep` in the same repository
+       and update the path in data/links.json.
+     - Repository not reachable: it may have been renamed or moved. If GitHub redirects the old name,
+       update the repo in data/links.json (and data/projects.json); if it is gone, report it.
      - Stage mismatch: update the stage in data/projects.json to the committee table's value.
      - Project missing from the map, or count mismatch: do not add the project yourself. Report it.
   4. Run `bun scripts/verify.ts` again and report the full output.

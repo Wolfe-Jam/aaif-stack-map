@@ -30,7 +30,7 @@
       "from": "goose",
       "to": "mcp",
       "kind": "documented",
-      "title": "goose extensions are MCP servers",
+      "title": "goose extensions are based on MCP",
       "quote": "Extensions are based on the Model Context Protocol (MCP)",
       "source": {
         "repo": "aaif-goose/goose",
@@ -173,7 +173,7 @@
       "from": "sandbox",
       "to": "skills",
       "kind": "documented",
-      "title": "OpenSandbox ships skills as SKILL.md",
+      "title": "OpenSandbox's CLI installs its skills, as SKILL.md for opencode",
       "quote": "The CLI ships with built-in OpenSandbox skills for coding agents and agent-oriented tools. … `./.agents/skills/<name>/SKILL.md`",
       "source": {
         "repo": "opensandbox-group/OpenSandbox",

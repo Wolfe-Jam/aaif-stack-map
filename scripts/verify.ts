@@ -50,8 +50,10 @@ const dirFor = (repo: string): string => join(reposDir, repo.replace("/", "_"));
 function ensureRepo(repo: string): boolean {
   const dir = dirFor(repo);
   if (existsSync(join(dir, ".git"))) {
+    // A failed fetch must not pass on an old cached copy: the quotes would not be current.
     const fetched = run(["git", "fetch", "-q", "--depth", "1", "origin", "HEAD"], dir);
-    if (fetched.ok) run(["git", "update-ref", "HEAD", "FETCH_HEAD"], dir);
+    if (!fetched.ok) return false;
+    run(["git", "update-ref", "HEAD", "FETCH_HEAD"], dir);
     return run(["git", "rev-parse", "HEAD"], dir).ok;
   }
   mkdirSync(reposDir, { recursive: true });
@@ -95,7 +97,8 @@ for (const [key, f] of Object.entries(flows)) {
   record(3, `flow ${key}: every step names a link`, missing.length === 0, missing.length ? `unknown: ${missing.join(", ")}` : `${f.steps.length} steps`);
 }
 for (const p of projects) {
-  const gaps = (["repo", "docs", "stage", "committeeName", "origin", "joined"] as const).filter(k => !p[k]);
+  // origin and joined are optional: shown only where a cited source states them (AGENTS.md rule 7).
+  const gaps = (["repo", "docs", "stage", "committeeName"] as const).filter(k => !p[k]);
   record(3, `project ${p.id}: required fields present`, gaps.length === 0, gaps.length ? `missing: ${gaps.join(", ")}` : "repo, docs, stage, committee name");
   if (p.docs) record(3, `project ${p.id}: docs link is https`, p.docs.startsWith("https://"), p.docs);
   if (p.stage) record(3, `project ${p.id}: stage is a known stage`, (STAGES as readonly string[]).includes(p.stage), p.stage);

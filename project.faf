@@ -1,7 +1,7 @@
 faf_version: "3.0"
 project:
   name: aaif-stack-map
-  goal: An interactive map of the ten [Agentic AI Foundation](https://aaif.io/projects) projects and the links between them. Every line on the map is a link that one project's own documentation states, with the quote and the file it comes from.
+  goal: "An interactive map of the ten [Agentic AI Foundation](https://aaif.io/projects) projects and the links between them. Every documented line on the map is a link one project's own documentation states, with the quote and the file it comes from; examples and open seams are labelled as such."
   main_language: TypeScript
   type: html  # found: index.html (vanilla, no frontend framework)
 stack:
@@ -26,7 +26,7 @@ stack:
   storage: slotignored
 human_context:
   who: "Developers, newcomers and AAIF ambassadors working out how the AAIF projects fit together, and the projects' maintainers, who can confirm their details."
-  what: An interactive map of the ten [Agentic AI Foundation](https://aaif.io/projects) projects and the links between them. Every line on the map is a link that one project's own documentation states, with the quote and the file it comes from.
+  what: "An interactive map of the ten [Agentic AI Foundation](https://aaif.io/projects) projects and the links between them. Every documented line on the map is a link one project's own documentation states, with the quote and the file it comes from; examples and open seams are labelled as such."
   why: "One page for how the AAIF projects connect, every line backed by a project's own docs."
   where: "https://wolfe-jam.github.io/aaif-stack-map/ (source: github.com/Wolfe-Jam/aaif-stack-map)"
   when: "Built November 2026 against aaif.io/projects and the technical committee table; re-verified weekly in CI."

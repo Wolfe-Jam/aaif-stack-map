@@ -288,7 +288,7 @@ a { color: var(--accent); }
     const es = EDGES.filter(e => (e.a === id || e.b === id) && (!e.seam || seamsBox.checked));
     highlight([id, ...es.map(e => e.a === id ? e.b : e.a)], es.map(e => e.id));
     panel.innerHTML = `<p class="sub">${esc(n.layer)} · ${esc(n.kind)}</p><h2>${esc(n.name)}</h2><div>${stageChip(n)}</div><p>${esc(n.role)}</p>` +
-      (n.ext ? '' : `<dl class="facts"><dt>Contributed by</dt><dd>${esc(n.origin)}</dd><dt>Joined AAIF</dt><dd>${esc(n.joined)}</dd><dt>Docs</dt><dd><a href="${DOCS[n.id]}" target="_blank" rel="noopener">${esc(DOCS[n.id].replace(/^https:\/\/(www\.)?/, ''))}</a></dd><dt>Repository</dt><dd><a href="${n.repo}" target="_blank" rel="noopener">${esc(n.repo.replace('https://github.com/', ''))}</a></dd></dl>`) +
+      (n.ext ? '' : `<dl class="facts">${n.origin ? `<dt>Origin</dt><dd>${esc(n.origin)}</dd>` : ''}${n.joined ? `<dt>Joined AAIF</dt><dd>${esc(n.joined)}</dd>` : ''}<dt>Docs</dt><dd><a href="${DOCS[n.id]}" target="_blank" rel="noopener">${esc(DOCS[n.id].replace(/^https:\/\/(www\.)?/, ''))}</a></dd><dt>Repository</dt><dd><a href="${n.repo}" target="_blank" rel="noopener">${esc(n.repo.replace('https://github.com/', ''))}</a></dd></dl>`) +
       `<p class="sub">${es.length} ${es.length === 1 ? 'link' : 'links'} on the map</p><ul class="links">${es.map(edgeItem).join('')}</ul>`;
     reveal();
   }

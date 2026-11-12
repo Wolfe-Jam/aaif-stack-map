@@ -1,6 +1,6 @@
 # AAIF Stack Map
 
-An interactive map of the ten [Agentic AI Foundation](https://aaif.io/projects) projects and the links between them. Every line on the map is a link that one project's own documentation states, with the quote and the file it comes from.
+An interactive map of the ten [Agentic AI Foundation](https://aaif.io/projects) projects and the links between them. Every documented line on the map is a link one project's own documentation states, with the quote and the file it comes from; examples and open seams are labelled as such.
 
 A community map by James Wolfe, AAIF Ambassador, built from each project's own documentation.
 
@@ -36,7 +36,7 @@ The script clones each source repository (shallow, into `.cache/repos`) and runs
 | 2 · Stages | Every stage matches the technical committee table, and the map has exactly the projects the table lists. |
 | 3 · Data | The data files are consistent: unique ids, links between real nodes, flow steps that name real links, complete project records. |
 
-It prints every test and exits non-zero if any fails. CI runs it on every push and pull request and once a week; when the weekly run finds drift, it opens an issue labelled `drift`.
+It prints every test and exits non-zero if any fails. CI runs it on pushes to `main`, on pull requests and once a week; when the weekly run finds drift, it opens an issue labelled `drift`.
 
 ## Contribute
 
@@ -61,7 +61,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 | File | Holds |
 | --- | --- |
-| `data/projects.json` | Projects: stage, docs, repository, contributor, date joined, and map position |
+| `data/projects.json` | Projects: stage, docs, repository, origin and date joined (only where a cited source states them), and map position |
 | `data/links.json` | Links: ends, kind, quote, source repository and path |
 | `data/flows.json` | Flows: ordered link ids with one caption each |
 

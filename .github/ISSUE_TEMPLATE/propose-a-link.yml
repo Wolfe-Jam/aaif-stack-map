@@ -1,19 +1,20 @@
 name: Propose a link
 description: A project's own documentation states a relationship to another AAIF project.
-title: "Link: <from> → <to>"
+title: "Link: <project> ↔ <project>"
 labels: ["link"]
 body:
   - type: input
     id: from
     attributes:
-      label: From (the project whose docs state the link)
+      label: One project
+      description: The two ends of the line, in any order. The page draws no arrow.
       placeholder: goose
     validations:
       required: true
   - type: input
     id: to
     attributes:
-      label: To
+      label: The other project
       placeholder: MCP
     validations:
       required: true
@@ -28,7 +29,7 @@ body:
     id: source
     attributes:
       label: Source file URL
-      description: A file in the project's own repository, on its default branch.
+      description: The file the quote comes from, in that project's own repository, on its default branch.
       placeholder: https://github.com/owner/repo/blob/main/docs/page.md
     validations:
       required: true
