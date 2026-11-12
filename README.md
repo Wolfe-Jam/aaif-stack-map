@@ -21,6 +21,8 @@ Then open the address it prints. The page reads `data/*.json`, so it needs to be
 
 ## Verify
 
+Needs a recent Bun: CI uses 1.4.4, and Bun 1.3 can't read `bun.lock`.
+
 ```sh
 bun install
 bun scripts/verify.ts
@@ -52,6 +54,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
   ```sh
   goose run --recipe recipes/recheck.yaml
   ```
+
+**Works with goose.** goose reads `AGENTS.md` first. When the weekly verify opens a `drift` issue, run the recipe: goose finds the current wording in the project's own repository, updates the data file and re-runs verify. It doesn't commit; you review the change.
 
 ## Data
 

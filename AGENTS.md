@@ -8,6 +8,8 @@ An interactive map of the ten Agentic AI Foundation (AAIF) projects and the link
 
 ## Commands
 
+Bun: CI uses 1.4.4; Bun 1.3 can't read `bun.lock`.
+
 ```sh
 bun install              # dev dependencies only: TypeScript and Bun's types
 bunx serve .             # serve the page, then open the address it prints (opening index.html as a file won't load the data)
