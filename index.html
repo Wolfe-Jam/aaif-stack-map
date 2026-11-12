@@ -122,7 +122,7 @@ a { color: var(--accent); }
   <header>
     <span class="eyebrow">Agentic AI Foundation · 10 projects · Nov 2026</span>
     <h1>The AAIF Full Stack</h1>
-    <p class="lede"><a href="https://aaif.io/projects" target="_blank" rel="noopener">Ten projects</a>, one map. The ten are the projects AAIF lists at <a href="https://aaif.io/projects" target="_blank" rel="noopener">aaif.io/projects</a>. Every line on it is a link that one project's own documentation states, with the quote. <strong>Click a project</strong> to read it, or <strong>play a flow</strong> to see how they work together.</p>
+    <p class="lede"><a href="https://aaif.io/projects" target="_blank" rel="noopener">Ten projects</a>, one map. The ten are the projects AAIF lists at <a href="https://aaif.io/projects" target="_blank" rel="noopener">aaif.io/projects</a>. Every documented line on it is a link one project's own documentation states, with the quote; examples and open seams are labelled. <strong>Click a project</strong> to read it, or <strong>play a flow</strong> to see how they work together.</p>
   </header>
 
   <p class="paths">These are some of the paths to discover relationships between the projects. <a href="https://github.com/Wolfe-Jam/aaif-stack-map/issues/new?template=share-a-path.yml" target="_blank" rel="noopener"><strong>Share yours.</strong></a></p>
@@ -133,7 +133,7 @@ a { color: var(--accent); }
   </div>
 
   <div class="main">
-    <div class="board"><svg id="map" viewBox="0 0 1000 505" role="img" aria-label="Diagram of the ten AAIF projects in five layers, with documented links between them"></svg></div>
+    <div class="board"><svg id="map" viewBox="0 0 1000 505" role="group" aria-label="Diagram of the ten AAIF projects in five layers, with documented links between them"></svg></div>
     <aside class="panel" id="panel" aria-live="polite"></aside>
   </div>
 
@@ -197,8 +197,7 @@ a { color: var(--accent); }
   const DOCS = Object.fromEntries(P.nodes.filter(n => n.docs).map(n => [n.id, n.docs]));
   const BANDS = [['Context', 20, 100], ['Agents & apps', 110, 190], ['Protocols', 205, 295], ['Gateways', 310, 400], ['Run & train', 405, 495]];
   const GH = 'https://github.com/';
-  const srcText = s => s.repo && s.path ? (s.label ? s.repo + ' (' + s.label + ')' : s.repo + '/blob/main/' + s.path) : (s.note || '');
-  const EDGES = L.links.map(l => ({ id: l.id, a: l.from, b: l.to, t: l.title, q: l.quote, s: srcText(l.source), weak: l.kind === 'example', seam: l.kind === 'seam', isNew: !!l.added, bend: l.bend }));
+  const EDGES = L.links.map(l => ({ id: l.id, a: l.from, b: l.to, t: l.title, q: l.quote, s: l.source || {}, weak: l.kind === 'example', seam: l.kind === 'seam', added: l.added, bend: l.bend }));
   const FLOWS = Object.fromEntries(Object.entries(F.flows).map(([k, f]) => [k, { name: f.name, steps: f.steps.map(s => [s.link, s.caption]) }]));
   // One button per flow in data/flows.json, so a new flow needs no change here.
   const seamsToggle = document.getElementById('seams').closest('label');
@@ -215,7 +214,14 @@ a { color: var(--accent); }
   const byId = Object.fromEntries(NODES.map(n => [n.id, n]));
   const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  const srcLink = s => s.includes('/blob/') ? `<a href="${GH + s}" target="_blank" rel="noopener">${esc(s.replace('/blob/main/', ' › '))}</a>` : (/^[\w.-]+\/[\w.-]+/.test(s) && !s.includes(' · ') ? `<a href="${GH + s.split(' ')[0]}" target="_blank" rel="noopener">${esc(s)}</a>` : esc(s));
+  // The source file, always shown and linked (HEAD = the repo's default branch); a label adds context.
+  const srcLink = s => s.repo && s.path
+    ? `<a href="${GH + s.repo}/blob/HEAD/${s.path}" target="_blank" rel="noopener">${esc(s.repo + ' › ' + s.path)}</a>${s.label ? ' · ' + esc(s.label) : ''}`
+    : esc(s.note || '');
+  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const shortDate = d => { const [y, m, day] = d.split('-').map(Number); return `${MONTHS[m - 1]} ${day}`; };
+  // On a narrow screen the panel sits below the map: bring it into view when something is selected.
+  const reveal = () => { if (window.matchMedia('(max-width: 960px)').matches && panel.getBoundingClientRect().top > window.innerHeight * 0.6) panel.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); };
 
   function port(n, tx, ty) {
     const dx = tx - n.x, dy = ty - n.y;
@@ -273,7 +279,7 @@ a { color: var(--accent); }
     return `<span class="chip ${n.stage.toLowerCase()}">${n.stage} stage</span>`;
   }
   function edgeItem(e) {
-    return `<li><span class="tier">${e.seam ? 'Open seam' : e.weak ? 'Example only' : 'Documented'}${e.isNew ? '<span class="newtag">· new Nov 3</span>' : ''}</span><span class="t">${esc(e.t)}</span><blockquote class="${e.seam ? 'seamq' : ''}">${esc(e.q)}</blockquote><span class="src">${srcLink(e.s)}</span></li>`;
+    return `<li><span class="tier">${e.seam ? 'Open seam' : e.weak ? 'Example only' : 'Documented'}${e.added ? `<span class="newtag">· new ${shortDate(e.added)}</span>` : ''}</span><span class="t">${esc(e.t)}</span><blockquote class="${e.seam ? 'seamq' : ''}">${esc(e.q)}</blockquote><span class="src">${srcLink(e.s)}</span></li>`;
   }
 
   function showNode(id) {
@@ -284,12 +290,14 @@ a { color: var(--accent); }
     panel.innerHTML = `<p class="sub">${esc(n.layer)} · ${esc(n.kind)}</p><h2>${esc(n.name)}</h2><div>${stageChip(n)}</div><p>${esc(n.role)}</p>` +
       (n.ext ? '' : `<dl class="facts"><dt>Contributed by</dt><dd>${esc(n.origin)}</dd><dt>Joined AAIF</dt><dd>${esc(n.joined)}</dd><dt>Docs</dt><dd><a href="${DOCS[n.id]}" target="_blank" rel="noopener">${esc(DOCS[n.id].replace(/^https:\/\/(www\.)?/, ''))}</a></dd><dt>Repository</dt><dd><a href="${n.repo}" target="_blank" rel="noopener">${esc(n.repo.replace('https://github.com/', ''))}</a></dd></dl>`) +
       `<p class="sub">${es.length} ${es.length === 1 ? 'link' : 'links'} on the map</p><ul class="links">${es.map(edgeItem).join('')}</ul>`;
+    reveal();
   }
   function showEdge(eid) {
     setFlow(null);
     const e = EDGES.find(x => x.id === eid);
     highlight([e.a, e.b], [eid]);
     panel.innerHTML = `<p class="sub">${esc(byId[e.a].name)} ↔ ${esc(byId[e.b].name)}</p><h2>${esc(e.t)}</h2><ul class="links">${edgeItem(e)}</ul>`;
+    reveal();
   }
 
   let flow = null, step = 0;
@@ -297,7 +305,8 @@ a { color: var(--accent); }
     flow = key; step = 0;
     document.querySelectorAll('[data-flow]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.flow === key)));
   }
-  function renderFlow() {
+  // focusStepper: after a step, keep keyboard focus on the stepper instead of losing it to the page.
+  function renderFlow(focusStepper) {
     const f = FLOWS[flow], [eid, caption] = f.steps[step], e = EDGES.find(x => x.id === eid);
     if (e.seam && !seamsBox.checked) { seamsBox.checked = true; applySeams(); }
     const seen = f.steps.slice(0, step + 1).map(s => s[0]);
@@ -307,17 +316,28 @@ a { color: var(--accent); }
     edgeEls[eid].path.classList.add('on');
     panel.innerHTML = `<p class="sub">Flow · step ${step + 1} of ${f.steps.length}</p><h2>${esc(f.name)}</h2><p>${esc(caption)}</p><ul class="links">${edgeItem(e)}</ul>` +
       `<div class="stepper"><button type="button" id="prev" ${step === 0 ? 'disabled' : ''}>Back</button><button type="button" id="next">${step === f.steps.length - 1 ? 'Start over' : 'Next'}</button><span class="count">${step + 1}/${f.steps.length}</span></div>`;
-    document.getElementById('prev').onclick = () => { if (step > 0) { step--; renderFlow(); } };
-    document.getElementById('next').onclick = () => { step = step === f.steps.length - 1 ? 0 : step + 1; renderFlow(); };
+    document.getElementById('prev').onclick = () => { if (step > 0) { step--; renderFlow(true); } };
+    document.getElementById('next').onclick = () => { step = step === f.steps.length - 1 ? 0 : step + 1; renderFlow(true); };
+    if (focusStepper) document.getElementById('next').focus();
   }
-  document.querySelectorAll('[data-flow]').forEach(b => b.addEventListener('click', () => { setFlow(b.dataset.flow); renderFlow(); }));
+  document.querySelectorAll('[data-flow]').forEach(b => b.addEventListener('click', () => { setFlow(b.dataset.flow); renderFlow(true); reveal(); }));
 
+  // The overview's sentence about recently added links, from the data's "added" dates.
+  function addedNote() {
+    const dates = [...new Set(EDGES.filter(e => e.added).map(e => e.added))].sort();
+    const n = EDGES.filter(e => e.added).length;
+    if (!n) return '';
+    const words = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+    const count = n < 10 ? words[n] : String(n);
+    const when = dates.length === 1 ? `the ${shortDate(dates[0])} check` : `checks from ${shortDate(dates[0])} to ${shortDate(dates[dates.length - 1])}`;
+    return `${count} ${n === 1 ? 'link was' : 'links were'} added in ${when}; ${n === 1 ? 'its panel says' : 'their panels say'} “new”.`;
+  }
   function overview() {
     highlight([], []);
     const doc = EDGES.filter(e => !e.seam && !e.weak).length, ex = EDGES.filter(e => e.weak).length, sm = EDGES.filter(e => e.seam).length;
     panel.innerHTML = `<p class="sub">10 projects · ${doc} documented links · ${ex} example · ${sm} open seams</p><h2>How the stack fits</h2>` +
       `<p>MCP sits in the middle: six of the other nine projects document a link to it. A2A is the second protocol, for agent-to-agent traffic, and both gateways now document carrying it. Above them, goose reads AGENTS.md and loads Agent Skills. Below them, the two gateways route the traffic, and OpenSandbox and OpenEnv give agents a place to run and to learn.</p>` +
-      `<p>All ten projects now have a stage on the technical committee’s table. Three links were added in the Nov 3 check; their panels say “new”.</p>` +
+      `<p>All ten projects now have a stage on the technical committee’s table. ${addedNote()}</p>` +
       `<p class="sub">Click any project or line. Play a flow to step through it.</p>`;
   }
   const themeBtn = document.getElementById('theme');
