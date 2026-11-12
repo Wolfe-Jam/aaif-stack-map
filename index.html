@@ -36,7 +36,6 @@
   --accent-soft: #D3EAEC;
   --seam: #A8432B;
   --weak: #8A979F;
-  --node: #FFFFFF;
   --new: #9A6B00;
   --display: "IBM Plex Sans Condensed", "Arial Narrow", Arial, sans-serif;
   --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
@@ -44,11 +43,11 @@
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --ground: #0E151A; --sheet: #131C22; --ink: #E4EAED; --muted: #93A2AC; --rule: #2B3842;
-  --band: #18232A; --accent: #45C1CC; --accent-soft: #123238; --seam: #E07A5E; --weak: #6D7C86; --node: #1A262E; --new: #E3B341;
+  --band: #18232A; --accent: #45C1CC; --accent-soft: #123238; --seam: #E07A5E; --weak: #6D7C86; --new: #E3B341;
   color-scheme: dark } }
 :root[data-theme="dark"] {
   --ground: #0E151A; --sheet: #131C22; --ink: #E4EAED; --muted: #93A2AC; --rule: #2B3842;
-  --band: #18232A; --accent: #45C1CC; --accent-soft: #123238; --seam: #E07A5E; --weak: #6D7C86; --node: #1A262E; --new: #E3B341;
+  --band: #18232A; --accent: #45C1CC; --accent-soft: #123238; --seam: #E07A5E; --weak: #6D7C86; --new: #E3B341;
   color-scheme: dark }
 
 body { margin: 0; background: var(--ground); color: var(--ink); font: 15px/1.55 var(--body); }
@@ -78,7 +77,7 @@ button[aria-pressed="true"] { background: var(--accent); border-color: var(--acc
 .board { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; overflow-x: auto; min-width: 0; }
 svg { display: block; width: 100%; min-width: 640px; height: auto; }
 .bandrect { fill: var(--band); }
-.bandlabel { font: 600 11px var(--display); letter-spacing: .12em; text-transform: uppercase; fill: var(--muted); }
+.bandlabel { font: 600 11px var(--display); letter-spacing: .12em; text-transform: uppercase; fill: var(--ink); }
 .edge { fill: none; stroke: var(--ink); stroke-width: 1.6; opacity: .55; transition: opacity .2s, stroke .2s, stroke-width .2s; }
 .edge.weak { stroke: var(--weak); stroke-dasharray: 3 4; }
 .edge.seam { stroke: var(--seam); stroke-dasharray: 7 5; opacity: .8; }
@@ -87,12 +86,18 @@ svg { display: block; width: 100%; min-width: 640px; height: auto; }
 .edge.dim { opacity: .1; }
 .hit { fill: none; stroke: transparent; stroke-width: 14; cursor: pointer; }
 .nd { cursor: pointer; }
-.nd rect { fill: var(--node); stroke: var(--ink); stroke-width: 1.3; transition: stroke .2s, fill .2s, opacity .2s; }
+.nd rect { fill: #000; stroke: var(--ink); stroke-width: 1.3; transition: stroke .2s, fill .2s, opacity .2s; }
 .nd.ext rect { stroke-dasharray: 4 3; stroke: var(--muted); fill: var(--sheet); }
-.nd text.n { font: 600 15px var(--display); fill: var(--ink); }
-.nd text.k { font: 500 10px var(--mono); fill: var(--muted); }
-.nd.hub rect { stroke-width: 2.4; }
+.nd text.n { font: 600 15px var(--display); fill: #fff; }
+.nd text.k { font: 500 10px var(--mono); fill: #B9C4CB; }
+.nd.ext text.n { fill: var(--ink); }
+.nd.ext text.k { fill: var(--muted); }
+.nd.hub rect { stroke: var(--accent); stroke-width: 3.4; }
+.nd.hub text.n { font-size: 17px; font-weight: 700; }
 .nd.on rect { stroke: var(--accent); stroke-width: 2.6; fill: var(--accent-soft); }
+.nd.hub.on rect { stroke-width: 3.4; }
+.nd.on text.n { fill: var(--ink); }
+.nd.on text.k { fill: var(--muted); }
 .nd.dim { opacity: .28; }
 
 .panel { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; padding: 18px; display: grid; gap: 12px; min-width: 0; }
@@ -271,7 +276,7 @@ a { color: var(--accent); }
   NODES.forEach(n => {
     const g = el('g', { class: 'nd' + (n.ext ? ' ext' : '') + (n.hub ? ' hub' : ''), tabindex: 0, role: 'button', 'aria-label': n.name + ', ' + n.kind }, nodeLayer);
     el('rect', { x: n.x - W / 2, y: n.y - H / 2, width: W, height: H, rx: 4 }, g);
-    const t = el('text', { class: 'n', x: n.x, y: n.y - 1, 'text-anchor': 'middle' }, g); t.textContent = n.name;
+    const t = el('text', { class: 'n', x: n.x, y: n.y - 1, 'text-anchor': 'middle' }, g); t.textContent = (n.id === 'goose' ? '🪿 ' : '') + n.name; // a little goose, for fun; screen readers still hear "goose"
     const k = el('text', { class: 'k', x: n.x, y: n.y + 14, 'text-anchor': 'middle' }, g); k.textContent = n.kind;
     const go = () => showNode(n.id);
     g.addEventListener('click', go);
